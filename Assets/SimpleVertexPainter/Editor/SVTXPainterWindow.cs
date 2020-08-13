@@ -35,6 +35,7 @@ namespace SVTXPainterEditor
         private int curColorChannel = (int)PaintType.All;
 
         private Mesh curMesh;
+        private Material m_material;
         private SVTXObject m_target;
         private GameObject m_active;
 
@@ -59,6 +60,7 @@ namespace SVTXPainterEditor
             {
                 GenerateStyles();
             }
+            m_material = null;
         }
 
         private void OnDestroy()
@@ -83,7 +85,7 @@ namespace SVTXPainterEditor
                 }
             }
             allowSelect = (m_target == null);
-           
+
             Repaint();
         }
 
@@ -133,6 +135,58 @@ namespace SVTXPainterEditor
                     {
                         brushIntensity = EditorGUILayout.Slider("Intensity:", brushIntensity, 0, 1);
                     }
+
+                    if (GUI.changed)
+                    {
+                        if (m_material == null)
+                        {
+                            m_material = SVTXPainterUtils.GetMaterial(m_active);
+                        }
+
+                        if (m_material != null)
+                        {
+                            switch (curColorChannel)
+                            {
+                                case 0:
+                                    m_material.EnableKeyword("_MODE_R_ON");
+                                    m_material.EnableKeyword("_MODE_G_ON");
+                                    m_material.EnableKeyword("_MODE_B_ON");
+                                    m_material.DisableKeyword("_MODE_A_ON");
+                                    break;
+                                case 1:
+
+                                    m_material.EnableKeyword("_MODE_R_ON");
+                                    m_material.DisableKeyword("_MODE_G_ON");
+                                    m_material.DisableKeyword("_MODE_B_ON");
+                                    m_material.DisableKeyword("_MODE_A_ON");
+                                    break;
+                                case 2:
+                                    m_material.DisableKeyword("_MODE_R_ON");
+                                    m_material.EnableKeyword("_MODE_G_ON");
+                                    m_material.DisableKeyword("_MODE_B_ON");
+                                    m_material.DisableKeyword("_MODE_A_ON");
+                                    break;
+                                case 3:
+                                    m_material.DisableKeyword("_MODE_R_ON");
+                                    m_material.DisableKeyword("_MODE_G_ON");
+                                    m_material.EnableKeyword("_MODE_B_ON");
+                                    m_material.DisableKeyword("_MODE_A_ON");
+                                    break;
+                                case 4:
+                                    m_material.DisableKeyword("_MODE_R_ON");
+                                    m_material.DisableKeyword("_MODE_G_ON");
+                                    m_material.DisableKeyword("_MODE_B_ON");
+                                    m_material.EnableKeyword("_MODE_A_ON");
+
+                                    break;
+
+                            }
+                        }
+
+
+                    }
+
+
                     if (GUILayout.Button("Fill"))
                     {
                         FillVertexColor();
@@ -185,7 +239,7 @@ namespace SVTXPainterEditor
         }
         void OnSceneGUI(SceneView sceneView)
         {
-            if (allowPainting )
+            if (allowPainting)
             {
                 bool isHit = false;
                 if (!allowSelect)
@@ -212,7 +266,7 @@ namespace SVTXPainterEditor
                     }
                 }
 
-                if (isHit|| changingBrushValue)
+                if (isHit || changingBrushValue)
                 {
 
                     Handles.color = getSolidDiscColor((PaintType)curColorChannel);
@@ -239,7 +293,7 @@ namespace SVTXPainterEditor
         #region TempPainter Method
         void PaintVertexColor()
         {
-            if (m_target&&m_active)
+            if (m_target && m_active)
             {
                 curMesh = SVTXPainterUtils.GetMesh(m_active);
                 if (curMesh)
@@ -286,7 +340,7 @@ namespace SVTXPainterEditor
                     OnSelectionChange();
                     Debug.LogWarning("Nothing to paint!");
                 }
-               
+
             }
             else
             {

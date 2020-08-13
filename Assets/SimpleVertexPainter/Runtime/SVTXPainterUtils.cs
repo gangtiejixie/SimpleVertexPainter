@@ -37,6 +37,22 @@ namespace SVTXPainter
             return curMesh;
         }
 
+
+        public static Material GetMaterial(GameObject pObj)
+        {
+            Renderer pRenderer = pObj.GetComponent<Renderer>();
+            Material pMaterial = null;
+            if (pRenderer.material != null)
+            {
+                pMaterial = pRenderer.material;
+            }
+            else if (pRenderer.materials.Length > 0)
+            {
+                pMaterial = pRenderer.materials[0];
+            }
+            return pMaterial;
+        }
+
         //Falloff 
         public static float LinearFalloff(float distance, float brushRadius)
         {
