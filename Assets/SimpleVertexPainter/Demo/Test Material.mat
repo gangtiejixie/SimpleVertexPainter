@@ -9,7 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Test Material
   m_Shader: {fileID: 4800000, guid: 7564f2b2ccb7f1f44826a3bbf5251a38, type: 3}
-  m_ShaderKeywords: NOKEWO N_F_O_ON N_F_RELGI_ON N_F_SS_ON _ _EMISSIVE_SIMPLE _OUTLINE_NML
+  m_ShaderKeywords: NOKEWO N_F_O_ON N_F_RELGI_ON N_F_SS_ON _ _EMISSIVE_SIMPLE _MODE_B_ON
+    _MODE_G_ON _MODE_R_ON _OUTLINE_NML
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -261,6 +262,10 @@ Material:
     - _Metallic: 0
     - _MixMainTexToOutline: 0
     - _Mode: 0
+    - _Mode_A: 0
+    - _Mode_B: 1
+    - _Mode_G: 1
+    - _Mode_R: 1
     - _N_F_CA: 0
     - _N_F_CLD: 0
     - _N_F_CO: 0
